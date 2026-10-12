@@ -2,8 +2,8 @@
 <html lang="te"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="The Profesional - Rangampeta Mandalam">
-<meta property="og:title" content="సభ్యుల ID కార్డు నమోదు – The Profesional, రంగంపేట మండలం">
+<meta property="og:site_name" content="The Professional Photographers &amp; Videographers Welfare Association - Rangampeta Mandal">
+<meta property="og:title" content="సభ్యుల ID కార్డు నమోదు – The Professional Photographers &amp; Videographers Welfare Association, Rangampeta Mandal">
 <meta property="og:description" content="ఫోటోగ్రాఫర్స్ & వీడియోగ్రాఫర్స్ వెల్ఫేర్ అసోసియేషన్ సభ్యులు ఇక్కడ క్లిక్ చేసి వివరాలు నమోదు చేయండి.">
 <meta property="og:url" content="https://divinepixelsdvn-cell.github.io/ID-Card-/">
 <meta property="og:image" content="https://divinepixelsdvn-cell.github.io/ID-Card-/og-image.jpg">
@@ -12,8 +12,8 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://divinepixelsdvn-cell.github.io/ID-Card-/og-image.jpg">
-<meta name="description" content="The Profesional ID కార్డు సభ్యుల నమోదు">
-<title>The Profesional - ID కార్డు నమోదు</title>
+<meta name="description" content="The Professional Photographers &amp; Videographers Welfare Association ID కార్డు సభ్యుల నమోదు">
+<title>Professional Photographers &amp; Videographers Welfare Association - ID కార్డు నమోదు</title>
 
 <style>
 *{box-sizing:border-box}.bigb{font-size:24px;padding:14px 44px;margin:22px 0 10px;border-radius:10px}.bigh{text-align:center;font-size:32px;color:#138f9a;margin:20px 0 10px}.tabs{display:flex;gap:10px;margin:16px 0}.tabs button{flex:1;padding:18px 6px;font-size:24px;font-weight:800;border:3px solid #138f9a;background:#fff;color:#138f9a;border-radius:12px;cursor:pointer}.tabs button.on{background:#138f9a;color:#fff}.top{flex-wrap:wrap}#q{flex:1 1 100%}.row b{font-size:18px}.row small{font-size:14px}@media(max-width:600px){.tabs button{font-size:20px;padding:16px 4px}.row{padding:14px;gap:14px}.row img,.ph{width:88px;height:110px}.row b{font-size:21px}.row small{font-size:16px;line-height:1.6}#q{font-size:18px;padding:14px}.top .btn{font-size:17px;padding:12px 16px}td{font-size:18px!important;padding:10px 4px!important}.big{width:200px;height:250px}main{padding:10px}}.sech{text-align:center;font-size:22px;color:#138f9a;margin:6px 0 10px}body{font-family:system-ui,sans-serif;margin:0;background:#f3f4f8;color:#1c1c28}
@@ -44,7 +44,7 @@ table{width:100%;margin-top:12px;border-collapse:collapse}td{padding:7px 4px;bor
 .ms{display:block;font-size:16px;font-weight:700;color:#333;margin-top:4px}.mf{display:block;font-size:17px;font-weight:800;color:#138f9a;margin-top:4px}
 .idc{max-width:420px;margin:0 auto;background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 8px 24px #0004;border:3px solid #138f9a}
 .idh{background:linear-gradient(135deg,#0b5d65,#138f9a);color:#fff;text-align:center;padding:16px 12px 38px}
-.ids{font-size:32px;font-weight:900;letter-spacing:3px}.idt{font-size:15px;font-weight:700;margin-top:4px;line-height:1.4}.idm{display:inline-block;margin-top:8px;background:#ffd23f;color:#222;font-weight:900;font-size:15px;padding:3px 14px;border-radius:20px}
+.ids{font-size:17px;font-weight:900;letter-spacing:1px;line-height:1.35;text-transform:uppercase}.idt{font-size:15px;font-weight:700;margin-top:4px;line-height:1.4}.idm{display:inline-block;margin-top:8px;background:#ffd23f;color:#222;font-weight:900;font-size:15px;padding:3px 14px;border-radius:20px}
 .idb{text-align:center;padding:0 16px 18px;margin-top:-28px}
 .idp{width:200px;height:250px;margin:0 auto;border-radius:14px;overflow:hidden;border:5px solid #fff;box-shadow:0 4px 14px #0005;background:#cfe9eb}.idp img{width:100%;height:100%;object-fit:cover;display:block}
 .idn{font-size:28px;font-weight:900;color:#0b5d65;margin-top:14px;line-height:1.25;word-break:break-word}
@@ -117,8 +117,9 @@ function render(){const q=$('q').value.toLowerCase();
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function mask(a){a=String(a||'');return a.length>=4?'XXXX XXXX '+a.slice(-4):a}
 function detail(id){const m=M.find(x=>x.id==id);show(3);
- const addr=[m.house,m.street,m.village].filter(Boolean).map(esc).join(', ');
- $('v3').innerHTML=`<div class="idc"><div class="idh"><div class="ids">The Profesional</div><div class="idt">ఫోటోగ్రాఫర్స్ &amp; వీడియోగ్రాఫర్స్ వెల్ఫేర్ అసోసియేషన్</div><div class="idm">రంగంపేట మండలం</div></div>
+ const isDt=v=>/GMT[+-]\d{4}|^\d{4}-\d{2}-\d{2}T/.test(String(v));
+ const addr=[m.house,m.street,m.village].filter(v=>v&&!isDt(v)).map(esc).join(', ');
+ $('v3').innerHTML=`<div class="idc"><div class="idh"><div class="ids">THE PROFESSIONAL PHOTOGRAPHERS &amp; VIDEOGRAPHERS WELFARE ASSOCIATION</div><div class="idm">Rangampeta Mandal</div></div>
  <div class="idb"><div class="idp">${m.photo?`<img src="${th(m.photo,800)}" onerror="this.style.visibility='hidden'">`:'<div class="ph0">👤</div>'}</div>
  <div class="idn">${esc(m.name)}</div><div class="idpid">ID: ${esc(m.pid)}</div><div class="idst">${esc(m.studio)}</div>
  <div class="idg"><div><small>ఫోన్</small><b>${esc(m.phone)}</b></div><div><small>బ్లడ్ గ్రూప్</small><b class="red">${esc(m.blood)}</b></div>
@@ -149,6 +150,6 @@ function submitF(){const f=$('f');if(!f.reportValidity())return;
 function file(b64,type,name){const a=document.createElement('a'),by=atob(b64),u=new Uint8Array(by.length);for(let i=0;i<by.length;i++)u[i]=by.charCodeAt(i);
  a.href=URL.createObjectURL(new Blob([u],{type}));a.download=name;a.click()}
 function dl(id,n,b){b.disabled=true;call('getPhoto',id).then(r=>{b.disabled=false;file(r,'image/jpeg',n+'.jpg')}).catch(e=>{b.disabled=false;msg(e.message)})}
-function xl(){msg('Excel సిద్ధమవుతోంది...',1);call('getExcel').then(r=>file(r,'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','MAA_Members.xlsx')).catch(e=>msg(e.message))}
+function xl(){msg('Excel సిద్ధమవుతోంది...',1);call('getExcel').then(r=>file(r,'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','Members.xlsx')).catch(e=>msg(e.message))}
 show(1);
 </script></body></html>
