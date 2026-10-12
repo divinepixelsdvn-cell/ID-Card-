@@ -50,7 +50,7 @@ table{width:100%;margin-top:12px;border-collapse:collapse}td{padding:7px 4px;bor
 <input type="hidden" id="id">
 <h3>వ్యక్తిగత వివరాలు</h3>
 <label>పూర్తి పేరు *</label><input id="name" required>
-<label>ఫోటోగ్రఫీ ID *</label><input id="pid" required>
+<label>ఫోటోగ్రఫీ ID *</label><input id="pid" required autocapitalize="characters" autocomplete="off" style="text-transform:uppercase" oninput="up(this)">
 <label>స్టూడియో పేరు *</label><input id="studio" required>
 <label>ఫోన్ నెంబర్ *</label><input id="phone" type="tel" maxlength="10" pattern="[0-9]{10}" required>
 <label>మెయిల్ ID (ఐచ్ఛికం)</label><input id="email" type="email">
@@ -58,8 +58,8 @@ table{width:100%;margin-top:12px;border-collapse:collapse}td{padding:7px 4px;bor
 <select id="blood" required><option value="">-- ఎంచుకోండి --</option>
 <option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select>
 <h3>అడ్రస్</h3>
-<label>హౌస్ నెం. *</label><input id="house" required>
-<label>స్ట్రీట్ *</label><input id="street" required>
+<label>హౌస్ నెం. (ఐచ్ఛికం)</label><input id="house">
+<label>స్ట్రీట్ (ఐచ్ఛికం)</label><input id="street">
 <label>గ్రామం *</label><input id="village" required>
 <h3>ID కార్డు ఫోటో</h3>
 <label id="plabel">ఫోటో *</label><input id="photo" type="file" accept="image/*">
@@ -103,10 +103,11 @@ $('photo').onchange=e=>{const f=e.target.files[0];if(!f)return;const img=new Ima
  const s=Math.min(1,900/Math.max(img.width,img.height)),c=document.createElement('canvas');c.width=img.width*s;c.height=img.height*s;
  c.getContext('2d').drawImage(img,0,0,c.width,c.height);const u=c.toDataURL('image/jpeg',.85);pdata=u.split(',')[1];$('pv').src=u;$('pv').style.display='block'};
  img.src=URL.createObjectURL(f)};
+function up(e){const s=e.selectionStart,n=e.selectionEnd;e.value=e.value.toUpperCase();try{e.setSelectionRange(s,n)}catch(x){}}
 function st(t,ok){const s=$('st');s.textContent=t;s.style.color=ok?'#0a7a2f':'#c00';if(t&&!ok)msg(t)}
 function submitF(){const f=$('f');if(!f.reportValidity())return;
  if(!$('id').value&&!pdata)return st('ఫోటో ఎంచుకోండి (ఎంచుకున్నాక ప్రివ్యూ కనిపించాలి)',0);
- const d={id:$('id').value};F.forEach(k=>d[k]=$(k).value.trim());
+ const d={id:$('id').value};F.forEach(k=>d[k]=$(k).value.trim());d.pid=d.pid.toUpperCase();
  $('sv').disabled=true;$('sv').textContent='సేవ్ అవుతోంది...';st('',1);
  const done=()=>{$('sv').disabled=false;$('sv').textContent='సేవ్ చేయండి'};
  call('save',d,pdata).then(r=>{done();
