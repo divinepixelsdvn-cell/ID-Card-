@@ -59,13 +59,19 @@ table{width:100%;margin-top:12px;border-collapse:collapse}td{padding:7px 4px;bor
 <script>
 const F=['name','pid','studio','phone','email','blood','house','street','village'];
 const L={name:'పూర్తి పేరు',pid:'ఫోటోగ్రఫీ ID',studio:'స్టూడియో పేరు',phone:'ఫోన్',email:'మెయిల్',blood:'బ్లడ్ గ్రూప్',house:'హౌస్ నెం.',street:'స్ట్రీట్',village:'గ్రామం',ts:'నమోదు సమయం'};
+const API='https://script.google.com/macros/s/AKfycbySjsoBl09I3Ty2cBnWjtGq5OoBfD6D6IrN4ZoJr4KwSLvDVRRoPyLiq4f7i8RZSSdp/exec';
+function call(fn,...a){return new Promise((res,rej)=>{
+ const t=setTimeout(()=>rej(new Error('సర్వర్ స్పందించడం లేదు, మళ్ళీ ప్రయత్నించండి')),90000);
+ const ok=v=>{clearTimeout(t);res(v)},bad=e=>{clearTimeout(t);rej(e)};
+ if(window.google&&google.script&&google.script.run)google.script.run.withSuccessHandler(ok).withFailureHandler(bad)[fn](...a);
+ else fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({fn,args:a})}).then(r=>r.json()).then(j=>j.error?bad(new Error(j.error)):ok(j.data)).catch(bad)})}
 let M=[],pdata=null;
 const $=i=>document.getElementById(i);
 const th=id=>'https://drive.google.com/thumbnail?sz=w400&id='+id;
 function msg(t,ok){const m=$('msg');m.textContent=t;m.style.display='block';m.style.background=ok?'#d7f5df':'#fcd9d9';m.onclick=()=>m.style.display='none';clearTimeout(window.mt);window.mt=setTimeout(()=>m.style.display='none',ok?4000:15000)}
 function show(n){[1,2,3].forEach(i=>$('v'+i).style.display=i==n?'block':'none')}
 function tab(n){show(n);$('t1').className=n==1?'on':'';$('t2').className=n==2?'on':'';if(n==2)load()}
-function load(){google.script.run.withSuccessHandler(u=>{$('sl').href=u;$('sl').style.display='inline-block'}).info();$('list').innerHTML='<p>లోడ్ అవుతోంది...</p>';google.script.run.withSuccessHandler(r=>{M=r;render()}).withFailureHandler(e=>msg(e.message)).list()}
+function load(){call('info').then(u=>{$('sl').href=u;$('sl').style.display='inline-block'}).catch(()=>{});$('list').innerHTML='<p>లోడ్ అవుతోంది...</p>';call('list').then(r=>{M=r;render()}).catch(e=>msg(e.message))}
 function render(){const q=$('q').value.toLowerCase();
  const r=M.filter(m=>!q||F.some(k=>m[k].toLowerCase().includes(q)));
  $('list').innerHTML=r.length?r.map(m=>`<div class="row" onclick="detail('${m.id}')">${m.photo?`<img src="${th(m.photo)}" onerror="this.style.visibility='hidden'">`:'<div class="ph"></div>'}<div><b>${esc(m.name)}</b><br><small>${esc(m.studio)} • ${esc(m.phone)} • ${esc(m.blood)}</small></div></div>`).join(''):'<p>సభ్యులు లేరు</p>'}
@@ -82,20 +88,18 @@ $('photo').onchange=e=>{const f=e.target.files[0];if(!f)return;const img=new Ima
  c.getContext('2d').drawImage(img,0,0,c.width,c.height);const u=c.toDataURL('image/jpeg',.85);pdata=u.split(',')[1];$('pv').src=u;$('pv').style.display='block'};
  img.src=URL.createObjectURL(f)};
 function st(t,ok){const s=$('st');s.textContent=t;s.style.color=ok?'#0a7a2f':'#c00';if(t&&!ok)msg(t)}
-function submitF(){if(typeof google==='undefined'||!google.script)return st('మీరు డౌన్లోడ్ చేసిన ఫైల్‌ను తెరిచారు. సేవ్ అవ్వదు. Apps Script యొక్క /exec లింక్‌నే తెరవండి.',0);const f=$('f');if(!f.reportValidity())return;
+function submitF(){const f=$('f');if(!f.reportValidity())return;
  if(!$('id').value&&!pdata)return st('ఫోటో ఎంచుకోండి (ఎంచుకున్నాక ప్రివ్యూ కనిపించాలి)',0);
  const d={id:$('id').value};F.forEach(k=>d[k]=$(k).value.trim());
  $('sv').disabled=true;$('sv').textContent='సేవ్ అవుతోంది...';st('',1);
- let fin=false;const tm=setTimeout(()=>{if(fin)return;fin=true;done();st('సర్వర్ నుండి 60 సెకన్లైనా స్పందన రాలేదు. లింక్‌ను Incognito window లో తెరిచి మళ్ళీ ప్రయత్నించండి (ఇతర Google ఖాతాలు లాగిన్ అయి ఉంటే ఇలా జరుగుతుంది).',0)},60000);
- const done0=()=>{$('sv').disabled=false;$('sv').textContent='సేవ్ చేయండి'};
- const done=()=>{clearTimeout(tm);done0()};
- google.script.run.withSuccessHandler(r=>{if(fin)return;fin=true;done();
+ const done=()=>{$('sv').disabled=false;$('sv').textContent='సేవ్ చేయండి'};
+ call('save',d,pdata).then(r=>{done();
   if(!r||!r.ok)return st('ఎర్రర్: '+(r&&r.error||'తెలియని సమస్య'),0);
   const ed=!!d.id;resetF();
   if(r.warn)st('వివరాలు సేవ్ అయ్యాయి, కానీ '+r.warn,0);else{st('సేవ్ అయ్యింది ✔',1);msg('సేవ్ అయ్యింది ✔',1)}
-  if(ed)tab(2)}).withFailureHandler(e=>{if(fin)return;fin=true;done();st('ఎర్రర్: '+e.message,0)}).save(d,pdata)}
+  if(ed)tab(2)}).catch(e=>{done();st('ఎర్రర్: '+e.message,0)})}
 function file(b64,type,name){const a=document.createElement('a'),by=atob(b64),u=new Uint8Array(by.length);for(let i=0;i<by.length;i++)u[i]=by.charCodeAt(i);
  a.href=URL.createObjectURL(new Blob([u],{type}));a.download=name;a.click()}
-function dl(id,n,b){b.disabled=true;google.script.run.withSuccessHandler(r=>{b.disabled=false;file(r,'image/jpeg',n+'.jpg')}).withFailureHandler(e=>{b.disabled=false;msg(e.message)}).getPhoto(id)}
-function xl(){msg('Excel సిద్ధమవుతోంది...',1);google.script.run.withSuccessHandler(r=>file(r,'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','MAA_Members.xlsx')).withFailureHandler(e=>msg(e.message)).getExcel()}
+function dl(id,n,b){b.disabled=true;call('getPhoto',id).then(r=>{b.disabled=false;file(r,'image/jpeg',n+'.jpg')}).catch(e=>{b.disabled=false;msg(e.message)})}
+function xl(){msg('Excel సిద్ధమవుతోంది...',1);call('getExcel').then(r=>file(r,'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','MAA_Members.xlsx')).catch(e=>msg(e.message))}
 </script></body></html>
